@@ -7,7 +7,7 @@ from command_processor import CommandProcessor
 from commands_list import COMMANDS
 
 # Initialize FastAPI app
-app = FastAPI(title="Terminal API", version="1.0.0")
+app = FastAPI(title="PyShell Terminal API", version="1.0.0")
 
 # CORS middleware - allow all origins for development
 app.add_middleware(

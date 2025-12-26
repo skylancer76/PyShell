@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
@@ -14,14 +15,14 @@ interface SystemStats {
   networkDown: number;
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || 'https://codemateai-hackathon-production.up.railway.app';
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 const App: React.FC = () => {
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: '1',
       type: 'output',
-      content: 'Welcome to Tyeetale Terminal v1.0'
+      content: 'Welcome to PyShell Terminal v1.0'
     },
     {
       id: '2',
@@ -107,11 +108,11 @@ const App: React.FC = () => {
           }
         }
       } else {
-        addLine(`Error: Backend server returned status ${response.status}. Check your Railway backend URL: ${API_BASE}`, 'error');
+        addLine(`Error: Backend server returned status ${response.status}. Check your backend URL: ${API_BASE}`, 'error');
       }
     } catch (error: any) {
       console.error('Command execution error:', error);
-      addLine(`Error: ${error.message}. Check your Railway backend URL: ${API_BASE}`, 'error');
+      addLine(`Error: ${error.message}. Check your backend URL: ${API_BASE}`, 'error');
     }
   };
 
@@ -247,7 +248,7 @@ const App: React.FC = () => {
           <button className="control-btn minimize"></button>
           <button className="control-btn maximize"></button>
         </div>
-        <div className="terminal-title">tyeetale</div>
+        <div className="terminal-title">pyshell</div>
       </div>
 
       <div className="terminal-content" ref={contentRef}>

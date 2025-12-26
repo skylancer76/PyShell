@@ -1,27 +1,7 @@
 {
-  "env": {
-    "VITE_API_URL": "https://codemateai-hackathon-production.up.railway.app"
-  },
-  "build": {
-    "env": {
-      "VITE_API_URL": "https://codemateai-hackathon-production.up.railway.app"
-    }
-  },
   "headers": [
     {
-      "source": "/favicon.ico",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/favicon-:size.png",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/apple-touch-icon.png",
+      "source": "/PyShell_Icon.ico",
       "headers": [
         { "key": "Cache-Control", "value": "no-store, must-revalidate" }
       ]

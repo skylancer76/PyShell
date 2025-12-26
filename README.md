@@ -1,8 +1,8 @@
-# 🖥️ Tyeetale Terminal
+# 🖥️ PyShell Terminal
 
 A modern, web-based terminal interface built with React and FastAPI. Experience the power of command-line operations through an intuitive, responsive web application.
 
-## Why Tyeetale Terminal?
+## Why PyShell Terminal?
 
 ### 🎯 **Core Features**
 - **Web-Based Terminal**: Access a full terminal experience directly in your browser - no installation required
@@ -23,7 +23,7 @@ A modern, web-based terminal interface built with React and FastAPI. Experience 
 ## 🏗️ Architecture
 
 ```
-Tyeetale Terminal/
+PyShell Terminal/
 ├── frontend/                 # React TypeScript application
 │   ├── src/
 │   │   ├── App.tsx          # Main terminal component
@@ -36,12 +36,11 @@ Tyeetale Terminal/
 │   ├── command_processor.py # Command execution engine
 │   ├── commands_list.py     # Available commands
 │   └── requirements.txt     # Python dependencies
-├── terminal_root/           # Sandboxed terminal environment
-│   ├── home/               # User home directory
-│   ├── documents/          # Documents folder
-│   ├── downloads/          # Downloads folder
-│   └── projects/           # Projects folder
-└── railway.toml            # Railway deployment config
+└── terminal_root/           # Sandboxed terminal environment
+    ├── home/               # User home directory
+    ├── documents/          # Documents folder
+    ├── downloads/          # Downloads folder
+    └── projects/           # Projects folder
 ```
 
 ## 🚀 Quick Start
@@ -55,8 +54,8 @@ Tyeetale Terminal/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/tyeetale-terminal.git
-   cd tyeetale-terminal
+   git clone https://github.com/your-username/pyshell.git
+   cd pyshell
    ```
 
 2. **Start the Backend**
@@ -77,15 +76,15 @@ Tyeetale Terminal/
    Open your browser and navigate to `http://localhost:5173`
 
 ### 🌐 **Live Demo**
-- **Frontend**: [https://tyeetale-terminal.vercel.app](https://tyeetale-terminal.vercel.app)
-- **Backend API**: [https://codemateai-hackathon-production.up.railway.app](https://codemateai-hackathon-production.up.railway.app)
+- **Frontend**: Deployed on Vercel
+- **Backend API**: Deployed on Vercel
 
 ### Production Deployment
 
-The application is configured for deployment on Railway:
+The application is configured for deployment on Vercel:
 
-1. **Backend**: Automatically deployed from the `backend/` directory
-2. **Frontend**: Deploy to Vercel, Netlify, or any static hosting service
+1. **Backend**: Deploy as a serverless function on Vercel
+2. **Frontend**: Deploy as a static site on Vercel
 
 ## 🛠️ Technology Stack
 
@@ -102,9 +101,8 @@ The application is configured for deployment on Railway:
 - **psutil** - System information
 
 ### Deployment
-- **Railway** - Backend hosting
-- **Nixpacks** - Build system
-- **Docker** - Containerization
+- **Vercel** - Full-stack hosting platform
+- **Serverless Functions** - Backend API deployment
 
 ## 📖 Usage
 
@@ -150,13 +148,10 @@ info grep   # Show info documentation
 ### Environment Variables
 Create a `.env` file in the frontend directory:
 ```env
-VITE_API_URL=https://your-railway-backend-url.railway.app
+VITE_API_URL=https://your-vercel-backend-url.vercel.app
 ```
 
 ### Customization
 - **Colors**: Modify `frontend/src/App.css` for theme customization
 - **Commands**: Add new commands in `backend/commands_list.py`
 - **Styling**: Update CSS variables for different color schemes
-
-
-<!-- Trimmed License, Acknowledgments, Support, and footer per request -->
