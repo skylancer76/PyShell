@@ -12,7 +12,24 @@ from commands_list import COMMANDS, COMMAND_HELP
 class CommandProcessor:
     def __init__(self):
         # Set terminal root directory
-        self.terminal_root = Path("/app/terminal_root") if os.path.exists("/app") else Path.cwd().parent / "terminal_root"
+        # Check for Vercel environment (/var/task) or local development
+        if os.path.exists("/var/task"):
+            # Vercel serverless environment
+            self.terminal_root = Path("/var/task/terminal_root") if os.path.exists("/var/task/terminal_root") else Path("/tmp/terminal_root")
+        elif os.path.exists("/app"):
+            # Docker/container environment
+            self.terminal_root = Path("/app/terminal_root")
+        else:
+            # Local development
+            self.terminal_root = Path.cwd().parent / "terminal_root"
+        
+        # Create terminal_root if it doesn't exist (for Vercel /tmp)
+        if not self.terminal_root.exists():
+            self.terminal_root.mkdir(parents=True, exist_ok=True)
+            # Create subdirectories
+            for subdir in ["home", "documents", "downloads", "projects"]:
+                (self.terminal_root / subdir).mkdir(exist_ok=True)
+        
         self.current_dir = self.terminal_root
         print(f"Command processor initialized in: {self.current_dir}")
 

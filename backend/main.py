@@ -75,3 +75,7 @@ def health_check():
 @app.get("/test")
 def test_endpoint():
     return {"message": "CORS is working!", "timestamp": time.time()}
+
+# Vercel serverless function handler
+from mangum import Mangum
+handler = Mangum(app)
