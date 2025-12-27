@@ -12,34 +12,40 @@ from commands_list import COMMANDS, COMMAND_HELP
 class CommandProcessor:
     def __init__(self):
         # Set terminal root directory
-        # Check for Vercel environment (/var/task) or local development
-        if os.path.exists("/var/task"):
-            # Vercel serverless environment
-            self.terminal_root = Path("/var/task/terminal_root") if os.path.exists("/var/task/terminal_root") else Path("/tmp/terminal_root")
+        # Vercel serverless functions use /tmp for writable storage
+        # Check for Vercel environment first (most restrictive)
+        if os.environ.get("VERCEL") or os.path.exists("/var/task"):
+            # Vercel serverless environment - use /tmp (only writable location)
+            self.terminal_root = Path("/tmp/terminal_root")
         elif os.path.exists("/app"):
-            # Docker/container environment
+            # Docker/container environment (like Railway)
             self.terminal_root = Path("/app/terminal_root")
         else:
             # Local development
             self.terminal_root = Path.cwd().parent / "terminal_root"
         
-        # Create terminal_root if it doesn't exist (for Vercel /tmp)
+        # Create terminal_root if it doesn't exist
         try:
             if not self.terminal_root.exists():
                 self.terminal_root.mkdir(parents=True, exist_ok=True)
-                # Create subdirectories
-                for subdir in ["home", "documents", "downloads", "projects"]:
-                    (self.terminal_root / subdir).mkdir(exist_ok=True)
+            # Ensure subdirectories exist
+            for subdir in ["home", "documents", "downloads", "projects"]:
+                subdir_path = self.terminal_root / subdir
+                if not subdir_path.exists():
+                    subdir_path.mkdir(parents=True, exist_ok=True)
         except Exception as e:
             print(f"Warning: Could not create terminal_root at {self.terminal_root}: {e}")
-            # Fallback to /tmp if creation fails
-            self.terminal_root = Path("/tmp/terminal_root")
+            # Final fallback to /tmp
             try:
+                self.terminal_root = Path("/tmp/terminal_root")
                 self.terminal_root.mkdir(parents=True, exist_ok=True)
                 for subdir in ["home", "documents", "downloads", "projects"]:
                     (self.terminal_root / subdir).mkdir(exist_ok=True)
             except Exception as e2:
                 print(f"Error: Could not create fallback terminal_root: {e2}")
+                # Last resort - use current directory
+                self.terminal_root = Path.cwd() / "terminal_root"
+                self.terminal_root.mkdir(exist_ok=True)
         
         self.current_dir = self.terminal_root
         print(f"Command processor initialized in: {self.current_dir}")

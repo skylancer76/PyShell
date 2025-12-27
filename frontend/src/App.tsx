@@ -15,7 +15,9 @@ interface SystemStats {
   networkDown: number;
 }
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// Get API base URL from environment variable
+// In production, this should be set in Vercel environment variables
+const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8000' : '');
 
 const App: React.FC = () => {
   const [lines, setLines] = useState<TerminalLine[]>([
@@ -74,6 +76,11 @@ const App: React.FC = () => {
 
   const executeCommand = async (input: string) => {
     if (!input.trim()) return;
+
+    if (!API_BASE) {
+      addLine(`Error: Backend URL not configured. Please set VITE_API_URL environment variable.`, 'error');
+      return;
+    }
 
     addLine(`${currentDirectory} > ${input}`, 'command');
 
@@ -204,6 +211,12 @@ const App: React.FC = () => {
     }
 
     const testConnection = async () => {
+      if (!API_BASE) {
+        addLine(`⚠️ Backend URL not configured. Please set VITE_API_URL environment variable.`, 'error');
+        addLine(`💡 In Vercel: Go to Settings → Environment Variables and add VITE_API_URL`, 'output');
+        return;
+      }
+
       try {
         console.log('Testing connection to:', `${API_BASE}/test`);
         const response = await fetch(`${API_BASE}/test`, {
@@ -226,6 +239,7 @@ const App: React.FC = () => {
         console.error('Connection test error:', error);
         addLine(`❌ Backend connection failed: ${error.message}`, 'error');
         addLine(`🔗 Trying to connect to: ${API_BASE}`, 'output');
+        addLine(`💡 Make sure the backend URL is correct and the backend is deployed.`, 'output');
       }
     };
 
