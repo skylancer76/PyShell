@@ -18,8 +18,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Global command processor instance
-processor = CommandProcessor()
+# Global command processor instance (lazy initialization)
+processor = None
+
+def get_processor():
+    global processor
+    if processor is None:
+        try:
+            processor = CommandProcessor()
+        except Exception as e:
+            print(f"Error initializing CommandProcessor: {e}")
+            # Return a minimal processor that will handle errors gracefully
+            processor = CommandProcessor()
+    return processor
 
 class CommandRequest(BaseModel):
     command: str
@@ -27,7 +38,8 @@ class CommandRequest(BaseModel):
 @app.post("/execute")
 def run_command(req: CommandRequest):
     try:
-        output = processor.execute(req.command)
+        proc = get_processor()
+        output = proc.execute(req.command)
         return {"output": output}
     except Exception as e:
         # Log error for debugging

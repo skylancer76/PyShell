@@ -24,11 +24,22 @@ class CommandProcessor:
             self.terminal_root = Path.cwd().parent / "terminal_root"
         
         # Create terminal_root if it doesn't exist (for Vercel /tmp)
-        if not self.terminal_root.exists():
-            self.terminal_root.mkdir(parents=True, exist_ok=True)
-            # Create subdirectories
-            for subdir in ["home", "documents", "downloads", "projects"]:
-                (self.terminal_root / subdir).mkdir(exist_ok=True)
+        try:
+            if not self.terminal_root.exists():
+                self.terminal_root.mkdir(parents=True, exist_ok=True)
+                # Create subdirectories
+                for subdir in ["home", "documents", "downloads", "projects"]:
+                    (self.terminal_root / subdir).mkdir(exist_ok=True)
+        except Exception as e:
+            print(f"Warning: Could not create terminal_root at {self.terminal_root}: {e}")
+            # Fallback to /tmp if creation fails
+            self.terminal_root = Path("/tmp/terminal_root")
+            try:
+                self.terminal_root.mkdir(parents=True, exist_ok=True)
+                for subdir in ["home", "documents", "downloads", "projects"]:
+                    (self.terminal_root / subdir).mkdir(exist_ok=True)
+            except Exception as e2:
+                print(f"Error: Could not create fallback terminal_root: {e2}")
         
         self.current_dir = self.terminal_root
         print(f"Command processor initialized in: {self.current_dir}")
