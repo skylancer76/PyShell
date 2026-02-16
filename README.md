@@ -76,7 +76,7 @@ PyShell Terminal/
    Open your browser and navigate to `http://localhost:5173`
 
 ### 🌐 **Live Demo**
-- **Frontend**: Deployed on Vercel
+- **Frontend**: [PyShell Terminal](https://pyshellfrontend.vercel.app)
 - **Backend API**: Deployed on Vercel
 
 ### Production Deployment
