@@ -10,23 +10,22 @@ sys.path.insert(0, str(backend_dir))
 # Change to backend directory for relative imports
 os.chdir(backend_dir)
 
+# Import the FastAPI app
 try:
     from main import app
-    from mangum import Mangum
-    
-    # Export handler for Vercel
-    handler = Mangum(app, lifespan="off")
 except Exception as e:
-    # Create a minimal error handler if import fails
+    # Fallback for import errors
     from fastapi import FastAPI
-    from mangum import Mangum
+    from fastapi.responses import JSONResponse
     
-    error_app = FastAPI()
+    app = FastAPI()
     
-    @error_app.get("/{path:path}")
-    @error_app.post("/{path:path}")
+    @app.get("/{path:path}")
+    @app.post("/{path:path}")
     def error_handler(path: str):
-        return {"error": f"Failed to initialize app: {str(e)}"}
-    
-    handler = Mangum(error_app, lifespan="off")
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to initialize app: {str(e)}"}
+        )
+
 
