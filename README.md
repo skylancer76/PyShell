@@ -2,6 +2,8 @@
 
 A modern, web-based terminal interface built with React and FastAPI. Experience the power of command-line operations through an intuitive, responsive web application.
 
+<img width="1272" height="801" alt="Screenshot 2026-02-19 at 3 53 34 PM" src="https://github.com/user-attachments/assets/7af11c1a-0536-4654-8b27-ee373c6c170b" />
+
 ## Why PyShell Terminal?
 
 ### 🎯 **Core Features**
